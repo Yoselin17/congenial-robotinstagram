@@ -8,26 +8,50 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
 
-    def to_dict(self):
-        return {}
+class User (Base):
+        __tablename__ = "user"
+        id = Column(Integer,primary_key=True)
+        User_correo = Column(String(50))
+        User_contraseña = Column(String(50))
+
+class Capitulo  (Base):
+                __tablename__ = "capitulo"
+                id = Column (Integer,primary_key=True)
+                capitulo_capitulo = Column(String(70))
+                capitulo_nombre = Column (String(70))
+                capitulo_informacion = Column (String(70))
+                capitulo_detalle = Column (String(70))
+
+class Personaje (Base):
+    __tablename__ = "personaje"
+    id = Column (Integer,primary_key=True)         
+    nombre = Column (String(70))              
+    imagen = Column (String(70))
+    specie = Column (String(70))
+
+class FavoritoCapitulo(Base):
+            __tablename__ = "FavoritoCapitulo"
+            id = Column (Integer,primary_key=True)
+            capitulo_id = Column(Integer, ForeignKey("capitulo.id"))
+            user_id = Column(Integer, ForeignKey("user.id"))  
+            relacioncapitulo = relationship(Capitulo)
+            relacionuser = relationship(User)
+
+
+                
+class FavoritoPersonaje (Base):
+            __tablename__ = "FavoritoPersonaje"
+            id= Column (Integer,primary_key=True)
+            FavoritoPersonaje_id = Column(Integer, ForeignKey("personaje.id"))
+            user_id = Column(Integer, ForeignKey("user.id"))  
+            relacionpersonaje = relationship(Personaje)
+            relacionuser = relationship(User)
+
+
+
+
 
 ## Draw from SQLAlchemy base
 try:
